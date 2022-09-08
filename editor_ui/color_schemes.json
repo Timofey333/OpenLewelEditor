@@ -1,0 +1,23 @@
+{
+    "target": "classic",
+    "classic": {
+        "ui_fon": "#ffffff",
+        "ui_widgets": "#ffffff",
+        "ui_text": "#000000",
+        "editor_fon": "#ffffff",
+        "editor_lines": "#0000ff",
+        "editor_target": "#00ff00",
+        "editor_error": "#ff0000",
+        "editor_text": "#000000"
+    },
+    "dark": {
+        "ui_fon": "#000000",
+        "ui_widgets": "#000000",
+        "ui_text": "#ffffff",
+        "editor_fon": "#000000",
+        "editor_lines": "#0000ff",
+        "editor_target": "#00ff00",
+        "editor_error": "#ff0000",
+        "editor_text": "#ffffff"
+    }
+}
