@@ -1,4 +1,4 @@
-from re import S
+from threading import Thread
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
@@ -52,7 +52,7 @@ class UiConstructor(QToolBar):
         if len(self.window.game_base.target) == 1:
             g: GameObject = copy.copy(self.window.game_base.target[0])
             g._set_new_unick_id()
-            self.window.game_base.add_collection_game_object(g)
+            self.window.game_base.add_collection_game_objects(g)
             self.window.update_collection()
 
     def update_game_objects(self, game_object):

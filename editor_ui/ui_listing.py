@@ -48,5 +48,7 @@ class GameObjectListingWidget(QPushButton):
         self.pressed.connect(self.set_target)
 
     def set_target(self) -> None:
+        self.listing.window.game_editor.set_camera_pos(
+            self.game_object.x, self.game_object.y)
         self.listing.window.game_base.target = [self.game_object]
         self.listing.window.update_targeted_widgets()

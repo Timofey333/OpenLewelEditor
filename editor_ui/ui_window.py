@@ -52,6 +52,10 @@ class EditorWindow(QMainWindow):
     def color_scheme(self):
         return self._color_scheme
 
+    @property
+    def game_editor(self):
+        return self.editor
+
     def _get_editor(self):
         return self.editor
 

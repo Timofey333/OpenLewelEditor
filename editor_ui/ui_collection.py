@@ -98,12 +98,12 @@ class GameObjectCollectionWidget(QWidget):
         g.x = new_x
         g.y = new_y
         self.collection.window.game_base.add_game_objects(g)
-        # self.collection.window.update_collection()
+        self.collection.window.update_targeted_widgets()
 
     def _remove_gm(self):
         if len(self.collection.window.game_base.collection_list) <= 1:
             return
-        self.collection.window.game_base.remove_collection_game_object(
+        self.collection.window.game_base.remove_collection_game_objects(
             self.game_obejct)
         self.collection.update_collection()
 
