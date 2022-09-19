@@ -1,0 +1,11 @@
+$ pip freeze
+PyQt6
+copy
+threading
+json
+pygame
+sqlite3
+sys
+pickle
+os
+math

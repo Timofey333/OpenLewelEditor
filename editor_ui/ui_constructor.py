@@ -7,6 +7,9 @@ import copy
 
 
 class UiConstructor(QToolBar):
+
+    window = None
+
     def __init__(self, window):
         super().__init__()
         self.window = window
@@ -19,6 +22,10 @@ class UiConstructor(QToolBar):
             Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.addWidget(self.scroll_area)
         self.update_constructor()
+
+    @property
+    def color_scheme(self):
+        return self.window.color_scheme
 
     def update_constructor(self):
         self.scroll_box = QVBoxLayout()

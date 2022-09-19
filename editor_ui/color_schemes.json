@@ -1,1 +1,9 @@
-{"target": "classic", "classic": {"ui_fon": "#ffffff", "ui_widgets": "#ffffff", "ui_text": "#000000", "editor_fon": "#ffffff", "editor_lines": "#0000ff", "editor_target": "#00ff00", "editor_error": "#ff0000", "editor_text": "#000000"}, "dark": {"ui_fon": "#000000", "ui_widgets": "#000000", "ui_text": "#ffffff", "editor_fon": "#000000", "editor_lines": "#0000ff", "editor_target": "#00ff00", "editor_error": "#ff0000", "editor_text": "#ffffff"}}
+{
+    "Ubuntu": "editor_ui/QSS-master/Ubuntu.qss",
+    "Neon": "editor_ui/QSS-master/NeonButtons.qss",
+    "Console": "editor_ui/QSS-master/ConsoleStyle.qss",
+    "Amoled": "editor_ui/QSS-master/AMOLED.qss",
+    "Manjaro": "editor_ui/QSS-master/ManjaroMix.qss",
+    "MaterialDark": "editor_ui/QSS-master/MaterialDark.qss",
+    "Dark": "editor_ui/QSS-master/dark.qss"
+}

@@ -7,8 +7,8 @@ from editor_ui.ui_help import HelpWindow
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
-from editor_ui.ui_scheme import *
 import copy
+import json
 
 from game_items.game_base import GameBase
 
@@ -17,7 +17,6 @@ class EditorWindow(QMainWindow):
     def __init__(self, base: GameBase):
         super().__init__()
         self.base = base
-        self._color_scheme = ColorSheme()
         self.setWindowTitle(f"OpenLewelEditor - {base.base_name}")
         self._create_actions()
 
@@ -47,10 +46,6 @@ class EditorWindow(QMainWindow):
     @property
     def game_base(self):
         return self.base
-
-    @property
-    def color_scheme(self):
-        return self._color_scheme
 
     @property
     def game_editor(self):
@@ -99,7 +94,13 @@ class EditorWindow(QMainWindow):
             self._append_collection)
 
     def update_color_schene(self):
-        pass
+        with open("editor_ui/color_schemes.json", "r") as file:
+            schemes = json.load(file)
+        with open("editor_ui/editor_settings.json", "r") as file:
+            style_name = schemes[json.load(file)["color_scheme"]]
+        with open(style_name, 'r') as f:
+            style = f.read()
+            self.setStyleSheet(style)
 
     def _delete_gm(self):
         if self.base.target is None:

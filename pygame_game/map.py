@@ -3,7 +3,6 @@ from game_items.game_objects import GameObject
 from game_items.game_base import GameBase
 from pygame_game.camera import Camera
 from pygame_game.log import Log
-import sqlite3
 
 
 class Map(pygame.sprite.Group):

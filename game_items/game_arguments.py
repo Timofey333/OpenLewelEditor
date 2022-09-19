@@ -44,7 +44,6 @@ class LabelArgumentWidget(QWidget):
         return self._editor_name.capitalize()
 
     def update_widget(self):
-        print(self.game_object.id)
         self.name_label.setText(
             self.editor_name + ": " + eval(f"str(game_object.{self.parameter_name})", {"game_object": self.game_object}))
         self.update()

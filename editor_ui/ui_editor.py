@@ -1,11 +1,9 @@
-from xml.sax.handler import property_declaration_handler
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from game_items.game_base import GameBase
 from game_items.game_objects import GameObject
 import json
-from editor_ui.ui_scheme import *
 
 
 class LevelEditor(QWidget):
@@ -26,8 +24,8 @@ class LevelEditor(QWidget):
         return self.window.game_base
 
     @property
-    def color_scheme(self) -> ColorSheme:
-        return self.window.color_scheme
+    def style(self):
+        return self.window.style
 
     def set_magnet(self, n):
         self.is_magnet = n
@@ -64,7 +62,7 @@ class LevelEditor(QWidget):
         qp = QPainter(self)
         # qp.setBrush(QBrush(QColor(self.color_scheme.editor_fon)))
         qp.drawRect(QRect(0, 0, self.width(), self.height()))
-        qp.setPen(QPen(QColor(self.color_scheme.editor_lines),
+        qp.setPen(QPen(QColor(0, 0, 255),
                   1, Qt.PenStyle.SolidLine))
         for y in range(- tile, int((height + tile) / scale), tile):
             line_y = int((y + camera_y % tile) * scale +
@@ -78,15 +76,19 @@ class LevelEditor(QWidget):
             qp.drawLine(line_x, 0, line_x, height)
             qp.drawText(line_x, height - 10,
                         str(int(x + self.tile_rounding(camera_x, scaled=False) - self.tile_rounding((width / scale) / 2, scaled=False))))
-        qp.setPen(QPen(QColor(self.color_scheme.editor_text),
+        qp.setPen(QPen(QColor(125, 125, 125),
                   1, Qt.PenStyle.SolidLine))
         qp.drawText(width - 100, 15, str(f"tile: {tile} scale: {scale}"))
         target_id = list(map(lambda g: g.id, self.base.target))
         for g in sorted(self.base.game_objects, key=lambda g: g.layer):
-            image = QImage(g.image_name)
             gx, gy = self.base_to_widget_pos(g.x, g.y)
+            if gx - g.width // 2 * scale > width or gx + g.width // 2 * scale < 0:
+                continue
+            if gy - g.height // 2 * scale > height or gy + g.height // 2 * scale < 0:
+                continue
+            image = QImage(g.image_name)
             if image.isNull():
-                qp.setPen(QPen(QColor(self.color_scheme.editor_error),
+                qp.setPen(QPen(QColor(255, 0, 0),
                           3, Qt.PenStyle.SolidLine))
                 qp.drawRect(QRectF(gx - g.width // 2 * scale, gy -
                                    g.height // 2 * scale, g.width * scale, g.height * scale))
@@ -95,7 +97,7 @@ class LevelEditor(QWidget):
                              g.height // 2 * scale, g.width * scale, g.height * scale), image)
             if g.id in target_id:
                 qp.setPen(
-                    QPen(QColor(self.color_scheme.editor_target), 3, Qt.PenStyle.SolidLine))
+                    QPen(QColor(0, 255, 0), 3, Qt.PenStyle.SolidLine))
                 qp.drawRect(QRectF(gx - g.width // 2 * scale, gy -
                                    g.height // 2 * scale, g.width * scale, g.height * scale))
 
@@ -105,7 +107,7 @@ class LevelEditor(QWidget):
         return (n // (self.tile * self.scale)) * (self.tile * self.scale)
 
     def mouseMoveEvent(self, event: QMouseEvent) -> None:
-        if event.button() != Qt.MouseButton.LeftButton:
+        if event.buttons() == Qt.MouseButton.LeftButton:
             if len(self.base.target) == 0:
                 mouse_widget_x, mouse_widget_y = event.point(
                     0).position().x(), event.point(0).position().y()
@@ -146,7 +148,7 @@ class LevelEditor(QWidget):
                 self.update()
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
-        if event.button() == Qt.MouseButton.LeftButton:
+        if event.buttons() == Qt.MouseButton.LeftButton:
             mouse_widget_x, mouse_widget_y = event.point(
                 0).position().x(), event.point(0).position().y()
             self.mouse_start_move_pos = self.widget_to_base_pos(

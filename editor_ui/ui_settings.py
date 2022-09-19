@@ -29,11 +29,20 @@ class SettingsWindow(QDialog):
         self.schemes_name_label = QLabel()
         self.schemes_name_label.setText("Color scheme: ")
         self.box.addWidget(self.schemes_name_label)
+
+        with open("editor_ui/color_schemes.json", "r") as file:
+            schemes = json.load(file)
+
+        with open("editor_ui/editor_settings.json", "r") as file:
+            settings = json.load(file)
+
         self.schemes_combo = QComboBox()
         for i, _ in self.schemes.items():
             if i == "target":
                 continue
             self.schemes_combo.addItem(i)
+        self.schemes_combo.setCurrentIndex(
+            list(schemes.keys()).index(settings["color_scheme"]))
         self.box.addWidget(self.schemes_combo)
 
         self.box.addWidget(QWidget(), 10)
@@ -52,19 +61,19 @@ class SettingsWindow(QDialog):
             error_window.exec()
         else:
             self.window._get_editor().set_settings()
+            self.window.update_color_schene()
             self.window.update()
 
     def set_settings(self):
         if not self.tile_editor.text().isdigit():
             return False
+        if int(self.tile_editor.text()) == 0:
+            return False
         self.settings["tile"] = int(self.tile_editor.text())
+        self.settings["color_scheme"] = self.schemes_combo.itemText(
+            self.schemes_combo.currentIndex())
         with open("editor_ui/editor_settings.json", "w") as file:
             json.dump(self.settings, file)
-
-        self.schemes["target"] = self.schemes_combo.itemText(
-            self.schemes_combo.currentIndex())
-        with open("editor_ui/color_schemes.json", "w") as file:
-            json.dump(self.schemes, file)
 
         return True
 
